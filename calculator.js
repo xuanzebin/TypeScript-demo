@@ -12,6 +12,7 @@
             this.firstNum = null;
             this.lastNum = null;
             this.result = null;
+            this.resultBackups = null;
             this.createContainer();
             this.createOutput();
             this.createButtons();
@@ -46,11 +47,18 @@
                 });
             });
         };
-        Calculator.prototype.clearCalculator = function () {
+        Calculator.prototype.clearCalculator = function (holdFirstNum) {
+            if (holdFirstNum === void 0) { holdFirstNum = true; }
             this.operator = null;
-            this.firstNum = null;
             this.lastNum = null;
+            this.resultBackups = this.result;
             this.result = null;
+            if (holdFirstNum) {
+                this.firstNum = null;
+            }
+            else {
+                this.firstNum = this.resultBackups;
+            }
         };
         Calculator.prototype.inputNumber = function (name, text) {
             if (this[name]) {
@@ -67,19 +75,23 @@
             }
             else {
                 this.inputNumber('firstNum', text);
+                this.resultBackups = null;
             }
+            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
         };
         Calculator.prototype.updateClear = function () {
             this.clearCalculator();
             this.span.textContent = '0';
         };
-        Calculator.prototype.updateResult = function () {
+        Calculator.prototype.updateResult = function (holdFirstNum) {
+            if (holdFirstNum === void 0) { holdFirstNum = true; }
             var result;
             if (this.operator && this.firstNum && this.lastNum) {
+                // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
                 result = this.getResult();
                 this.result = result.toPrecision(12).replace(/(0+$)|(\.0+$)/g, '').replace(/([^0]0+e)|(\.0+e)/g, 'e');
                 this.span.textContent = this.result;
-                this.clearCalculator();
+                this.clearCalculator(holdFirstNum);
             }
             else {
                 alert('请正确操作计算器');
@@ -89,10 +101,14 @@
             if (this.result) {
                 this.firstNum = this.result;
             }
+            if (this.resultBackups) {
+                this.firstNum = this.resultBackups;
+            }
             if (this.operator && this.firstNum && this.lastNum) {
-                this.updateResult();
+                this.updateResult(false);
             }
             this.operator = text;
+            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
         };
         Calculator.prototype.getResult = function () {
             if (this.operator === '+') {

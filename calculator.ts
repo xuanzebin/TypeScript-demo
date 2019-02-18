@@ -13,7 +13,8 @@
         public firstNum: string = null
         public lastNum: string = null
         public result: string = null
-        constructor(): void {
+        public resultBackups: string = null
+        constructor() {
             this.createContainer()
             this.createOutput()
             this.createButtons()
@@ -47,11 +48,16 @@
                 })
             })
         }
-        clearCalculator(): void {
+        clearCalculator(holdFirstNum: boolean = true): void {
             this.operator = null
-            this.firstNum = null
             this.lastNum = null
+            this.resultBackups = this.result
             this.result = null
+            if (holdFirstNum) {
+                this.firstNum = null
+            } else {
+                this.firstNum = this.resultBackups
+            }
         }
         inputNumber(name: string, text: string): void {
             if (this[name]) {
@@ -66,19 +72,23 @@
                 this.inputNumber('lastNum', text)
             } else {
                 this.inputNumber('firstNum', text)
+                this.resultBackups = null
             }
+
+            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
         }
         updateClear(): void {
             this.clearCalculator()
             this.span.textContent = '0'
         }
-        updateResult(): void {
+        updateResult(holdFirstNum: boolean = true): void {
             let result: number
             if (this.operator && this.firstNum && this.lastNum) {
+                // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
                 result = this.getResult()
                 this.result = result.toPrecision(12).replace(/(0+$)|(\.0+$)/g, '').replace(/([^0]0+e)|(\.0+e)/g, 'e')
                 this.span.textContent = this.result
-                this.clearCalculator()
+                this.clearCalculator(holdFirstNum)
             } else {
                 alert('请正确操作计算器')
             }
@@ -87,11 +97,14 @@
             if (this.result) {
                 this.firstNum = this.result
             }
-            if (this.operator && this.firstNum && this.lastNum) {
-                this.updateResult()
+            if (this.resultBackups) {
+                this.firstNum = this.resultBackups
             }
-
+            if (this.operator && this.firstNum && this.lastNum) {
+                this.updateResult(false)
+            }
             this.operator = text
+            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
         }
         getResult(): number {
             if (this.operator === '+') {
