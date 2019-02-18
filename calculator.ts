@@ -60,7 +60,20 @@
                 this.firstNum = this.resultBackups
             }
         }
+        checkPoint(name: string, text: string): boolean {
+            if(!this[name]) return
+            if (this[name].indexOf('.') >= 0 && text === '.') {
+                return true
+            } else {
+                return false
+            }
+        }
         inputNumber(name: string, text: string): void {
+            let result = this.checkPoint(name, text)
+            if (result) {
+                alert('请勿重复输入小数点')
+                return
+            }
             if (this[name]) {
                 this[name] += text
             } else {
@@ -134,11 +147,11 @@
                 }
             })
         }
-        authorDeclare():void{
-            let div:HTMLDivElement=document.createElement('div')
-            let span:HTMLSpanElement=document.createElement('span')
-            div.className='author'
-            span.textContent='---create by xuanzebin---'
+        authorDeclare(): void {
+            let div: HTMLDivElement = document.createElement('div')
+            let span: HTMLSpanElement = document.createElement('span')
+            div.className = 'author'
+            span.textContent = '---create by xuanzebin---'
             div.appendChild(span)
             document.body.appendChild(div)
         }

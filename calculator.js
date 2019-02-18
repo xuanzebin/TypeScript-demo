@@ -61,7 +61,22 @@
                 this.firstNum = this.resultBackups;
             }
         };
+        Calculator.prototype.checkPoint = function (name, text) {
+            if (!this[name])
+                return;
+            if (this[name].indexOf('.') >= 0 && text === '.') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
         Calculator.prototype.inputNumber = function (name, text) {
+            var result = this.checkPoint(name, text);
+            if (result) {
+                alert('请勿重复输入小数点');
+                return;
+            }
             if (this[name]) {
                 this[name] += text;
             }
