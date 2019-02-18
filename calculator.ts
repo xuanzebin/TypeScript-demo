@@ -19,6 +19,7 @@
             this.createOutput()
             this.createButtons()
             this.bindEvents()
+            this.authorDeclare()
         }
         createOutput(): void {
             let output: HTMLDivElement = document.createElement('div')
@@ -75,7 +76,7 @@
                 this.resultBackups = null
             }
 
-            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+            // console.log(this.firstNum, this.operator, this.lastNum)
         }
         updateClear(): void {
             this.clearCalculator()
@@ -84,7 +85,7 @@
         updateResult(holdFirstNum: boolean = true): void {
             let result: number
             if (this.operator && this.firstNum && this.lastNum) {
-                // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+                // console.log(this.firstNum, this.operator, this.lastNum)
                 result = this.getResult()
                 this.result = result.toPrecision(12).replace(/(0+$)|(\.0+$)/g, '').replace(/([^0]0+e)|(\.0+e)/g, 'e')
                 this.span.textContent = this.result
@@ -104,7 +105,7 @@
                 this.updateResult(false)
             }
             this.operator = text
-            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+            // console.log(this.firstNum, this.operator, this.lastNum)
         }
         getResult(): number {
             if (this.operator === '+') {
@@ -132,6 +133,14 @@
                     }
                 }
             })
+        }
+        authorDeclare():void{
+            let div:HTMLDivElement=document.createElement('div')
+            let span:HTMLSpanElement=document.createElement('span')
+            div.className='author'
+            span.textContent='---create by xuanzebin---'
+            div.appendChild(span)
+            document.body.appendChild(div)
         }
     }
     new Calculator()

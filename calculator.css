@@ -23,3 +23,16 @@
     right:0.4em;
     bottom:0.4em;   
 }
+.author{
+    margin-top:10px;
+}
+.author span{
+    font-size:16px;
+}
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+}

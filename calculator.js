@@ -17,6 +17,7 @@
             this.createOutput();
             this.createButtons();
             this.bindEvents();
+            this.authorDeclare();
         }
         Calculator.prototype.createOutput = function () {
             var output = document.createElement('div');
@@ -77,7 +78,7 @@
                 this.inputNumber('firstNum', text);
                 this.resultBackups = null;
             }
-            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+            // console.log(this.firstNum, this.operator, this.lastNum)
         };
         Calculator.prototype.updateClear = function () {
             this.clearCalculator();
@@ -87,7 +88,7 @@
             if (holdFirstNum === void 0) { holdFirstNum = true; }
             var result;
             if (this.operator && this.firstNum && this.lastNum) {
-                // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+                // console.log(this.firstNum, this.operator, this.lastNum)
                 result = this.getResult();
                 this.result = result.toPrecision(12).replace(/(0+$)|(\.0+$)/g, '').replace(/([^0]0+e)|(\.0+e)/g, 'e');
                 this.span.textContent = this.result;
@@ -108,7 +109,7 @@
                 this.updateResult(false);
             }
             this.operator = text;
-            // console.log(this.firstNum, ' ', this.operator, ' ', this.lastNum)
+            // console.log(this.firstNum, this.operator, this.lastNum)
         };
         Calculator.prototype.getResult = function () {
             if (this.operator === '+') {
@@ -143,6 +144,14 @@
                     }
                 }
             });
+        };
+        Calculator.prototype.authorDeclare = function () {
+            var div = document.createElement('div');
+            var span = document.createElement('span');
+            div.className = 'author';
+            span.textContent = '---create by xuanzebin---';
+            div.appendChild(span);
+            document.body.appendChild(div);
         };
         return Calculator;
     }());
